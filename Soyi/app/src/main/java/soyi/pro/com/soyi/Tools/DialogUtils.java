@@ -2,18 +2,44 @@ package soyi.pro.com.soyi.Tools;
 
 import android.content.Context;
 
+import java.io.Serializable;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Ezreal on 2015/11/30.
  */
-public class DialogUtils {
+public class DialogUtils implements Serializable {
+
+    private static class SingletonHolder {
+        /**
+         * 单例对象实例
+         */
+        static final DialogUtils INSTANCE = new DialogUtils();
+    }
+
+    public static DialogUtils getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
+    /**
+     * private的构造函数用于避免外界直接使用new来实例化对象
+     */
+    private DialogUtils() {
+    }
+
+    /**
+     * readResolve方法应对单例对象被序列化时候
+     */
+    private Object readResolve() {
+        return getInstance();
+    }
 
     /*標題對話框
     * @param Context context:上下文對象
     * @param String msg:標題的文字
     * */
-    public static void showTitleDialog(Context context, String msg) {
+    public void showTitleDialog(Context context, String msg) {
         new SweetAlertDialog(context)
                 .setTitleText(msg)
                 .show();
@@ -24,7 +50,7 @@ public class DialogUtils {
     * @param String title:標題
     * @param String msg: 具體文字內容
     * */
-    public static void showTitleAndMsgDialog(Context context, String title, String msg) {
+    public void showTitleAndMsgDialog(Context context, String title, String msg) {
         new SweetAlertDialog(context)
                 .setTitleText(title)
                 .setContentText(msg)
@@ -36,7 +62,7 @@ public class DialogUtils {
     * @param String title:標題
     * @param String msg: 具體文字內容
     * */
-    public static void showErrorDialog(Context context, String eTitle, String msg) {
+    public void showErrorDialog(Context context, String eTitle, String msg) {
         new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText(eTitle)
                 .setContentText(msg)
@@ -49,7 +75,7 @@ public class DialogUtils {
     * @param String msg:具體的文字內容
     * @param String confimText:按鈕的文字
     * */
-    public static void showWarningDialog(Context context, String eTitle, String msg, String confirmText) {
+    public void showWarningDialog(Context context, String eTitle, String msg, String confirmText) {
         new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText(eTitle)
                 .setContentText(msg)
@@ -62,7 +88,7 @@ public class DialogUtils {
     * @param String eTitle: 標題
     * @param String msg:具體的文字內容
     * */
-    public static void showSuccessDialog(Context context, String title, String msg) {
+    public void showSuccessDialog(Context context, String title, String msg) {
         new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText(title)
                 .setContentText(msg)
@@ -75,7 +101,7 @@ public class DialogUtils {
     * @param String msg:具體的文字內容
     * @param int icon:圖片素材
     * */
-    public  static void showCustomIconDialog(Context context,String title,String msg,int icon){
+    public void showCustomIconDialog(Context context, String title, String msg, int icon) {
         new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
                 .setTitleText(title)
                 .setContentText(msg)
@@ -90,7 +116,7 @@ public class DialogUtils {
     * @param String confirmText:按鈕的文字
     * setConfirmClickListener: 監聽事件
     * */
-    public static void showWarningListenerDialog(final Context context,String title,String msg,String confirmText){
+    public void showWarningListenerDialog(final Context context, String title, String msg, String confirmText) {
         new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText(title)
                 .setContentText(msg)
@@ -98,21 +124,21 @@ public class DialogUtils {
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        ToastUtils.show(context, "吐出了一句話", false);
                         sDialog.dismissWithAnimation();
                     }
                 })
                 .show();
     }
-       /*綁定複雜按鈕事件對話框
-       * @param Context context:上下文對象
-       * @param String eTitle: 標題
-       * @param String msg:具體的文字內容
-       * @param String confirmText:按鈕的文字
-       * setConfirmClickListener: 確認監聽事件
-       * setCancelClickListener: 取消監聽事件
-       * */
-    public static  void showWarningAllDialog(final Context context, final String title,String msg,String cancelText,String confirmText){
+
+    /*綁定複雜按鈕事件對話框
+    * @param Context context:上下文對象
+    * @param String eTitle: 標題
+    * @param String msg:具體的文字內容
+    * @param String confirmText:按鈕的文字
+    * setConfirmClickListener: 確認監聽事件
+    * setCancelClickListener: 取消監聽事件
+    * */
+    public void showWarningAllDialog(final Context context, final String title, String msg, String cancelText, String confirmText) {
         new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText(title)
                 .setContentText(msg)

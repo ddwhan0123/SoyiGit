@@ -88,6 +88,25 @@
                 android:layout_height="wrap_content"
                 android:text="showWarningAllDialog"
                 android:id="@+id/showWarningAllDialog" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="getAppName"
+                android:id="@+id/getAppName" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SpUtilsget"
+                android:id="@+id/SpUtilsGet" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="isWifi"
+                android:id="@+id/isWifi" />
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>

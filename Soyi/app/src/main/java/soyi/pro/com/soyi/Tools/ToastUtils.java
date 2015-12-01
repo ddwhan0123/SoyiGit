@@ -14,7 +14,18 @@ import soyi.pro.com.soyi.R;
  * Created by Ezreal on 2015/11/30.
  */
 public class ToastUtils {
-    public static void show(Context context, String text, boolean isLong) {
+    private static ToastUtils instance;
+
+    private ToastUtils(){}
+
+    public static ToastUtils getInstance(){
+        if (instance == null) {
+            instance = new ToastUtils();
+        }
+        return instance;
+    }
+
+    public  void show(Context context, String text, boolean isLong) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.toast_layout, null);
 
