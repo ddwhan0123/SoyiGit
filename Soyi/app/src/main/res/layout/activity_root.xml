@@ -10,19 +10,84 @@
     tools:context=".Activity.Root">
 
 
-    <Button
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="showTitleDialog"
-        android:id="@+id/showTitleDialog"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/scrollView"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="showTitleAndMsgDialog"
-        android:id="@+id/showTitleAndMsgDialog"
-        android:layout_below="@+id/showTitleDialog" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showTitleDialog"
+                android:id="@+id/showTitleDialog"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showTitleAndMsgDialog"
+                android:id="@+id/showTitleAndMsgDialog"
+                android:layout_below="@+id/showTitleDialog" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showErrorDialog"
+                android:id="@+id/showErrorDialog"
+                android:layout_below="@+id/showTitleAndMsgDialog"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showWarningDialog"
+                android:id="@+id/showWarningDialog"
+                android:layout_below="@+id/showErrorDialog"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showSuccessDialog"
+                android:id="@+id/showSuccessDialog"
+                android:layout_below="@+id/showWarningDialog"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showCustomIconDialog"
+                android:id="@+id/showCustomIconDialog"
+                android:layout_below="@+id/showSuccessDialog"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showWarningListenerDialog"
+                android:id="@+id/showWarningListenerDialog"
+                android:layout_below="@+id/showCustomIconDialog"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="showWarningAllDialog"
+                android:id="@+id/showWarningAllDialog" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
