@@ -13,6 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.apkfuns.logutils.LogUtils;
 
 import soyi.pro.com.soyi.R;
@@ -28,6 +33,7 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
     EditText userPassword, userName;
     ToastUtils toastUtils;
     SpUtils spUtils;
+    RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,8 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
     }
 
     private void init() {
+        //网络初始化
+        mQueue = Volley.newRequestQueue(this);
         loginButton.setText("注册");
         findPwdTextView.setText("王亟亟");
         KeyImage.setImageResource(R.drawable.icon);
@@ -65,8 +73,21 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
         if (checkEditText(userName, 6) && checkEditText(userPassword, 6)) {
             spUtils.putString(this, "userName", userName.getText().toString().trim());
             spUtils.putString(this, "userPassword", userPassword.getText().toString().trim());
-            LogUtils.d("userName: "+userName.getText().toString().trim()+" userPassword: "+userPassword.getText().toString().trim());
-            //后面做跳转和异步
+            LogUtils.d("userName:  " + userName.getText().toString().trim() + " userPassword:  " + userPassword.getText().toString().trim());
+            //后面做跳转和异步,这里用的是get
+            StringRequest stringRequest = new StringRequest("http://www.baidu.com",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            LogUtils.d("--->onResponse   " + response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    LogUtils.e("TAG", error.getMessage(), error);
+                }
+            });
+            mQueue.add(stringRequest);
         } else {
             toastUtils.show(this, "输入内容不合逻辑", true);
         }

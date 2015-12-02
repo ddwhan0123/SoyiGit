@@ -27,4 +27,5 @@ dependencies {
     compile 'cn.trinea.android.common:trinea-android-common:4.2.15'
     compile 'com.apkfuns.logutils:library:1.0.6'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
 }

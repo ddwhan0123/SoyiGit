@@ -2,7 +2,6 @@ package soyi.pro.com.soyi.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,6 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.apkfuns.logutils.LogUtils;
 
 import soyi.pro.com.soyi.R;
@@ -22,7 +26,7 @@ import soyi.pro.com.soyi.Tools.ToastUtils;
 public class LoginActivity extends Activity implements View.OnClickListener {
     private long exitTime = 0;
     final static String TAG = LoginActivity.class.getName();
-
+    RequestQueue mQueue;
     ToastUtils toastUtils;
     SpUtils spUtils;
     //找回密码
@@ -45,6 +49,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void init() {
+        //网络初始化
+        mQueue = Volley.newRequestQueue(this);
+
         loginButton.setText("登录");
         findPwdTextView.setText("找回密码");
         KeyImage.setImageResource(R.drawable.key);
@@ -81,6 +88,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if (checkLogin(userName, "userName") && checkLogin(userPassword, "userPassword")) {
             toastUtils.show(this, "登陆成功", true);
             //后面做跳转和异步
+            StringRequest stringRequest = new StringRequest("http://www.baidu.com",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            LogUtils.d("--->onResponse"+ response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    LogUtils.e("TAG", error.getMessage(), error);
+                }
+            });
+            mQueue.add(stringRequest);
         } else {
             toastUtils.show(this, "输入帐号/密码有误", true);
         }
