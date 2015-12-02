@@ -1,0 +1,59 @@
+	void sendCardAndMAPRequest(String latitude, String longitude) {
+
+		String vdid = DataManager.getInstance(this).getVDID();
+		String appId = msg.getAppId();
+		String bizSequenceId = msg.getBizSequenceId();
+		String serviceType = msg.getBizType();
+
+		RequestEntity request = new RequestEntity();
+		request.setVDID(vdid);
+		request.setAppId(appId);
+		request.setBizSequenceId(bizSequenceId);
+		request.setServiceType(serviceType);
+		request.setIdCarrier(idCarrier);
+
+		// map
+		String mapSM3 = CustomUtil.SM3(LocalUserData.map);
+		String mapEncrypted = CustomUtil.SHA1(mapSM3 + LocalUserData.sessionKey);
+		request.setMAP(mapEncrypted);
+
+		request.setEIDSign(eIDSign);
+		request.setLatitude(latitude);
+		request.setLongitude(longitude);
+
+		String sign = CustomUtil.SHA1(vdid + appId + bizSequenceId + serviceType + idCarrier + mapEncrypted + eIDSign + latitude + longitude + LocalUserData.sessionKey);
+		request.setSign(sign);
+
+		String url = ConfigUtil.SERVER_PREFIX_URL + ServerRequestPostfix.VERIFY_LEVEL_MAP_AND_CARD;
+
+		new HttpLinker(this).doPOST(url, request.toJsonString(), new RespHandleListener() {
+
+			@Override
+			public void onReqBegin() {
+
+			}
+
+			@Override
+			public void onError(int code) {
+
+				hideProcessDlg();
+
+				String text = res.getString(getNetworkErrorTip(code));
+				showNetworkErrorDlgForCardAndMAP(text);
+
+			}
+
+			@Override
+			public void onReqEnd(String jsonResp) {
+
+				hideProcessDlg();
+
+				String result = parseCommonResp(jsonResp).getResult();
+				String content = parseCommonResp(jsonResp).getContent();
+				handleError(result, content, ACTION_CARD_AND_MAP);
+
+			}
+
+		});
+
+	}
