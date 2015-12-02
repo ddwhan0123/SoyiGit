@@ -3,110 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activity.Root">
 
-
-    <ScrollView
-        android:layout_width="match_parent"
+    <soyi.pro.com.soyi.Custom.QuickReaderView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView"
+        android:id="@+id/changeTextView"
+        android:text="Are U Ready?"
+        android:textColor="@color/Black"
+        android:textSize="25sp"
+        android:layout_above="@+id/iconImage"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true">
+        android:layout_marginBottom="20dp"/>
 
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showTitleDialog"
-                android:id="@+id/showTitleDialog"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showTitleAndMsgDialog"
-                android:id="@+id/showTitleAndMsgDialog"
-                android:layout_below="@+id/showTitleDialog" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showErrorDialog"
-                android:id="@+id/showErrorDialog"
-                android:layout_below="@+id/showTitleAndMsgDialog"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showWarningDialog"
-                android:id="@+id/showWarningDialog"
-                android:layout_below="@+id/showErrorDialog"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showSuccessDialog"
-                android:id="@+id/showSuccessDialog"
-                android:layout_below="@+id/showWarningDialog"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showCustomIconDialog"
-                android:id="@+id/showCustomIconDialog"
-                android:layout_below="@+id/showSuccessDialog"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showWarningListenerDialog"
-                android:id="@+id/showWarningListenerDialog"
-                android:layout_below="@+id/showCustomIconDialog"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="showWarningAllDialog"
-                android:id="@+id/showWarningAllDialog" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="getAppName"
-                android:id="@+id/getAppName" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SpUtilsget"
-                android:id="@+id/SpUtilsGet" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="isWifi"
-                android:id="@+id/isWifi" />
-        </LinearLayout>
-    </ScrollView>
+    <ImageView
+        android:id="@+id/iconImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/icon_zbx" />
 
 </RelativeLayout>
