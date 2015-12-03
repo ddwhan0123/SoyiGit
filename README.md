@@ -6,6 +6,7 @@
 >已完成模块
 >>0.引导页面/Guide page
 >>>版本号/AppVersion
+>>>开场动画/Opening animation
 
 
 >>1.注册/Registered<br>
