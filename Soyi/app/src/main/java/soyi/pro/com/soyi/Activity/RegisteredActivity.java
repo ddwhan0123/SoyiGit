@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.apkfuns.logutils.LogUtils;
 
+import soyi.pro.com.soyi.Logic.LogicJumpTo;
 import soyi.pro.com.soyi.R;
 import soyi.pro.com.soyi.Tools.SpUtils;
 import soyi.pro.com.soyi.Tools.ToastUtils;
@@ -28,12 +29,14 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
     final static String TAG = RegisteredActivity.class.getName();
     private long exitTime = 0;
     Button loginButton;
-    TextView findPwdTextView;
+    TextView findPwdTextView,RegTextView;
     ImageView KeyImage;
     EditText userPassword, userName;
     ToastUtils toastUtils;
     SpUtils spUtils;
     RequestQueue mQueue;
+
+    LogicJumpTo logicJumpTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +50,12 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
     }
 
     private void init() {
+        logicJumpTo=LogicJumpTo.getInstance();
+
         //网络初始化
         mQueue = Volley.newRequestQueue(this);
-        loginButton.setText("注册");
+        loginButton.setText("注册账号^.^");
+        RegTextView.setText("去登陆界面");
         findPwdTextView.setText("王亟亟");
         KeyImage.setImageResource(R.drawable.icon);
     }
@@ -63,10 +69,12 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
         userName = (EditText) findViewById(R.id.userName);
         findPwdTextView = (TextView) findViewById(R.id.findPwdTextView);
         KeyImage = (ImageView) findViewById(R.id.KeyImage);
+        RegTextView=(TextView)findViewById(R.id.RegTextView);
     }
 
     private void setClickListener() {
         loginButton.setOnClickListener(this);
+        RegTextView.setOnClickListener(this);
     }
 
     private void RegisteredLogic() {
@@ -80,6 +88,7 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
                         @Override
                         public void onResponse(String response) {
                             LogUtils.d("--->onResponse   " + response);
+                            logicJumpTo.LoginToHomeActivity(RegisteredActivity.this, HomeActivity.class, userName.getText().toString().trim());
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -89,6 +98,8 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
             });
             mQueue.add(stringRequest);
         } else {
+            userName.setText("");
+            userPassword.setText("");
             toastUtils.show(this, "输入内容不合逻辑", true);
         }
     }
@@ -156,6 +167,9 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
         switch (v.getId()) {
             case R.id.loginButton:
                 RegisteredLogic();
+                break;
+            case R.id.RegTextView:
+                logicJumpTo.noValueJump(RegisteredActivity.this,LoginActivity.class);
                 break;
         }
     }

@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.apkfuns.logutils.LogUtils;
 
+import soyi.pro.com.soyi.Logic.LogicJumpTo;
 import soyi.pro.com.soyi.R;
 import soyi.pro.com.soyi.Tools.SpUtils;
 import soyi.pro.com.soyi.Tools.ToastUtils;
@@ -29,11 +30,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     RequestQueue mQueue;
     ToastUtils toastUtils;
     SpUtils spUtils;
+    LogicJumpTo logicJumpTo;
     //找回密码
     LinearLayout findPwdLayout;
     Button loginButton;
     EditText userPassword, userName;
-    TextView findPwdTextView;
+    TextView findPwdTextView,RegTextView;
     ImageView KeyImage;
 
     @Override
@@ -52,7 +54,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         //网络初始化
         mQueue = Volley.newRequestQueue(this);
 
-        loginButton.setText("登录");
+        loginButton.setText("登录账号^.^");
+        RegTextView.setText("去注册界面");
         findPwdTextView.setText("找回密码");
         KeyImage.setImageResource(R.drawable.key);
     }
@@ -60,6 +63,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private void findId() {
         toastUtils = ToastUtils.getInstance();
         spUtils = SpUtils.getInstance();
+        logicJumpTo=LogicJumpTo.getInstance();
+        RegTextView=(TextView)findViewById(R.id.RegTextView);
 
         findPwdLayout = (LinearLayout) findViewById(R.id.findPwdLayout);
         loginButton = (Button) findViewById(R.id.loginButton);
@@ -72,6 +77,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private void setClickListener() {
         findPwdLayout.setOnClickListener(this);
         loginButton.setOnClickListener(this);
+        RegTextView.setOnClickListener(this);
     }
 
     private boolean checkLogin(EditText editText, String Key) {
@@ -93,6 +99,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void onResponse(String response) {
                             LogUtils.d("--->onResponse"+ response);
+                            logicJumpTo.LoginToHomeActivity(LoginActivity.this,HomeActivity.class,userName.getText().toString().trim());
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -102,6 +109,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             });
             mQueue.add(stringRequest);
         } else {
+            userName.setText("");
+            userPassword.setText("");
             toastUtils.show(this, "输入帐号/密码有误", true);
         }
     }
@@ -148,6 +157,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.loginButton:
                 loginLogic();
+                break;
+            case R.id.RegTextView:
+                logicJumpTo.noValueJump(LoginActivity.this,RegisteredActivity.class);
                 break;
         }
     }

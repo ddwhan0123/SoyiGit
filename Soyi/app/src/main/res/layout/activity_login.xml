@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="soyi.pro.com.soyi.Activity.LoginActivity">
+    tools:context="soyi.pro.com.soyi.Activity.LoginActivity"
+    android:background="@color/WhiteSmoke">
 
 
     <LinearLayout
@@ -38,7 +39,8 @@
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="帐号"/>
     </LinearLayout>
 
     <LinearLayout
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="密码"
             android:inputType="textPassword" />
     </LinearLayout>
 
@@ -108,6 +111,7 @@
         android:src="@drawable/icon_zbx" />
 
     <Button
+        android:padding="8dp"
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,5 +119,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:background="@drawable/toast_bg"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@color/Black"/>
+
+    <TextView
+        android:padding="8dp"
+        android:background="@drawable/toast_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RegTextView"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

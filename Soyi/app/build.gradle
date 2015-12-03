@@ -28,4 +28,5 @@ dependencies {
     compile 'com.apkfuns.logutils:library:1.0.6'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.ikimuhendis:ldrawer:0.1'
 }

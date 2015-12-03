@@ -26,14 +26,19 @@
         </activity>
         <activity
             android:name=".Activity.LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".Activity.RegisteredActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustPan"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
 
         <service
             android:name=".Service.NetworkStateService"
             android:enabled="true" />
+
+        <activity
+            android:name=".Activity.HomeActivity"></activity>
     </application>
 
 </manifest>

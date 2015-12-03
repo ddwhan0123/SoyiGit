@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apkfuns.logutils.LogUtils;
@@ -24,9 +25,12 @@ import java.util.TimerTask;
 
 import soyi.pro.com.soyi.Anim.Techniques;
 import soyi.pro.com.soyi.Anim.YoYo;
+import soyi.pro.com.soyi.ContentConfig;
 import soyi.pro.com.soyi.Custom.QuickReaderView;
+import soyi.pro.com.soyi.Logic.LogicJumpTo;
 import soyi.pro.com.soyi.R;
 import soyi.pro.com.soyi.Service.NetworkStateService;
+import soyi.pro.com.soyi.Tools.AppUtils;
 import soyi.pro.com.soyi.Tools.SpUtils;
 import soyi.pro.com.soyi.Tools.ToastUtils;
 
@@ -35,10 +39,14 @@ public class Root extends Activity implements View.OnClickListener {
     //吐司的實例
     ToastUtils toastUtils;
     SpUtils spUtils;
+    LogicJumpTo logicJumpTo;
+    AppUtils appUtils;
+
     private QuickReaderView changeTextView;
     private ImageView iconImage;
     private YoYo.YoYoString rope;
     private long exitTime = 0;
+    private TextView version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +66,20 @@ public class Root extends Activity implements View.OnClickListener {
     private void findView() {
         toastUtils = ToastUtils.getInstance();
         spUtils = SpUtils.getInstance();
+        logicJumpTo = LogicJumpTo.getInstance();
+        appUtils=AppUtils.getInstance();
 
         iconImage = (ImageView) findViewById(R.id.iconImage);
         changeTextView = (QuickReaderView) findViewById(R.id.changeTextView);
+        version=(TextView)findViewById(R.id.version);
     }
 
     private void logic() {
-        makeAnim(iconImage, 3800);
+        makeAnim(iconImage, 3000);
 
         String text = getResources().getString(R.string.changeText);
-        changeTextView.setWordsPerSecond(400).setRepeat(true).showText(text);
+        changeTextView.setWordsPerSecond(100).setRepeat(true).showText(text);
+        version.setText("当前版本："+appUtils.getVersionName(Root.this));
     }
 
 
@@ -79,22 +91,21 @@ public class Root extends Activity implements View.OnClickListener {
                 .withListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-
+                        LogUtils.d("--->onAnimationStart");
                     }
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         LogUtils.d("--->onAnimationEnd");
                         String value = spUtils.getString(Root.this, "userName");
-                        Intent intent;
-                        if (value == null) {
-
-                            intent = new Intent(Root.this, RegisteredActivity.class);
-                        } else {
-
-                            intent = new Intent(Root.this, LoginActivity.class);
+                        boolean loginFlag = spUtils.getBoolean(Root.this, ContentConfig.IS_LOGIN);
+                        if (loginFlag) {
+                            logicJumpTo.LoginToHomeActivity(Root.this, HomeActivity.class, value);
+                        }else{
+                            spUtils.putBoolean(Root.this,ContentConfig.IS_LOGIN, false);
+                            logicJumpTo.RootToOtherActivity(Root.this, RegisteredActivity.class, LoginActivity.class, value);
                         }
-                        startActivity(intent);
+
                     }
 
                     @Override
@@ -115,10 +126,6 @@ public class Root extends Activity implements View.OnClickListener {
         super.onResume();
         LogUtils.d("--->Root onResume");
         logic();
-    }
-
-    protected void showToast(Context context, String msg, boolean isLong) {
-        toastUtils.show(context, msg, isLong);
     }
 
 

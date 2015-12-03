@@ -6,4 +6,13 @@
     <color name="White">#FFFFFF</color>
     <color name="Black">#000000</color>
     <color name="WhiteSmoke">#F5F5F5</color>
+    <color name="actionbar_color">#bf360c</color>
+    <color name="drawer_arrow_second_color">#303f9f</color>
+    <color name="LightSkyBlue">#87CEFA</color>
+    <color name="SpringGreen">#3CB371</color>
+    <color name="OliveDrab">#556B2F</color>
+    <color name="SeaShell">#FFF5EE</color>
+    <color name="Gray">#808080</color>
+    <color name="LightGrey">#D3D3D3</color>
+    
 </resources>
