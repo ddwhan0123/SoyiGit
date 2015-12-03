@@ -95,10 +95,10 @@ public class HomeActivity extends Activity {
 
 
         String[] values = new String[]{
-                "Stop Animation (Back icon)",
+                "停止动画",
                 "评分",
-                "Start Animation",
-                "Change Color",
+                "开始动画",
+                "更换颜色",
                 "项目地址",
                 "分享",
                 "登出"
