@@ -14,6 +14,8 @@
 >>>b.注册账户/Registered account
 
 >>2.登录/Sign in<br>
+>>>a.跳转到注册界面/
+
 >>3.主页面/Home frame<br>
 
 别忘记点个赞哦！:thumbsup::thumbsup::thumbsup:
