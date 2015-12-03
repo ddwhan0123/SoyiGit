@@ -3,7 +3,7 @@
 ####Blog:[http://blog.csdn.net/ddwhan0123](http://blog.csdn.net/ddwhan0123) 
 ####QQ:526357367
 ####WeChat ID:<br>![WeChatID](https://github.com/ddwhan0123/SoyiGit/blob/master/Soyi/WeChatID.JPG "二维码")
->已完成模块
+>已完成模块:clap::clap::clap:
 >>0.引导页面/Guide page
 >>>版本号/AppVersion
 >>>开场动画/Opening animation
