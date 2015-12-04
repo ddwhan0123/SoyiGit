@@ -56,7 +56,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         loginButton.setText("登录账号^.^");
         RegTextView.setText("去注册界面");
-        findPwdTextView.setText("找回密码");
+        findPwdTextView.setText("找回/忘记密码");
         KeyImage.setImageResource(R.drawable.key);
     }
 

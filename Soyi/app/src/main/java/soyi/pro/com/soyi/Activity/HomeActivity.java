@@ -2,6 +2,7 @@ package soyi.pro.com.soyi.Activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -16,27 +17,34 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dodola.listview.extlib.ListViewExt;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 
 import com.apkfuns.logutils.LogUtils;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import soyi.pro.com.soyi.ContentConfig;
+import soyi.pro.com.soyi.Logic.Adapter.MenuAdapter;
 import soyi.pro.com.soyi.Logic.LogicJumpTo;
 import soyi.pro.com.soyi.R;
+import soyi.pro.com.soyi.Tools.DialogUtils;
 import soyi.pro.com.soyi.Tools.SpUtils;
+import soyi.pro.com.soyi.Tools.ToastUtils;
 
 public class HomeActivity extends Activity {
     String userName;
     private long exitTime = 0;
     SpUtils spUtils;
     LogicJumpTo logicJumpTo;
+    ToastUtils toastUtils;
+    DialogUtils dialogUtils;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
+    private ListViewExt mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
-    private boolean drawerArrowColor;
+//    private boolean drawerArrowColor;
 
 
     @Override
@@ -52,6 +60,8 @@ public class HomeActivity extends Activity {
     private void init() {
         spUtils = SpUtils.getInstance();
         logicJumpTo = LogicJumpTo.getInstance();
+        toastUtils = ToastUtils.getInstance();
+        dialogUtils = DialogUtils.getInstance();
 
         userName = getIntent().getStringExtra("userName");
         if (userName != null) {
@@ -67,7 +77,8 @@ public class HomeActivity extends Activity {
 
     private void finViewId() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.navdrawer);
+        mDrawerList = (ListViewExt) findViewById(R.id.navdrawer);
+        mDrawerList.setBackgroundColor(00000000);
 
         drawerArrow = new DrawerArrowDrawable(this) {
             @Override
@@ -93,18 +104,16 @@ public class HomeActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-
-        String[] values = new String[]{
-                "停止动画",
-                "评分",
-                "开始动画",
-                "更换颜色",
+        MenuAdapter adapter = new MenuAdapter(HomeActivity.this, new String[]{
+                "我的照片墙",
+                "给软件评分",
+                "扫描二维码",
+                "赞助作者",
                 "项目地址",
-                "分享",
-                "登出"
-        };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+                "分享给其他人",
+                "设置",
+                "登出帐号"
+        });
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,33 +121,41 @@ public class HomeActivity extends Activity {
                                     int position, long id) {
                 switch (position) {
                     case 0:
-                        mDrawerToggle.setAnimateEnabled(false);
-                        drawerArrow.setProgress(1f);
+//                        关闭动画
+//                        mDrawerToggle.setAnimateEnabled(false);
+//                        drawerArrow.setProgress(1f);
+                        toastUtils.show(HomeActivity.this, "我的照片墙", false);
                         break;
                     case 1:
-                        String appUrl = "https://play.google.com/store/apps/details?id=" + getPackageName();
-                        Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(appUrl));
-                        startActivity(rateIntent);
+                        toastUtils.show(HomeActivity.this, "给软件评分", false);
+//                        String appUrl = "https://play.google.com/store/apps/details?id=" + getPackageName();
+//                        Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(appUrl));
+//                        startActivity(rateIntent);
                         break;
                     case 2:
-                        mDrawerToggle.setAnimateEnabled(true);
-                        mDrawerToggle.syncState();
+                        toastUtils.show(HomeActivity.this, "扫描二维码", false);
+//                        打开动画
+//                        mDrawerToggle.setAnimateEnabled(true);
+//                        mDrawerToggle.syncState();
                         break;
                     case 3:
-                        if (drawerArrowColor) {
-                            drawerArrowColor = false;
-                            drawerArrow.setColor(R.color.ldrawer_color);
-                        } else {
-                            drawerArrowColor = true;
-                            drawerArrow.setColor(R.color.drawer_arrow_second_color);
-                        }
-                        mDrawerToggle.syncState();
+                        toastUtils.show(HomeActivity.this, "赞助作者", false);
+//                        if (drawerArrowColor) {
+//                            drawerArrowColor = false;
+//                            drawerArrow.setColor(R.color.ldrawer_color);
+//                        } else {
+//                            drawerArrowColor = true;
+//                            drawerArrow.setColor(R.color.drawer_arrow_second_color);
+//                        }
+//                        mDrawerToggle.syncState();
                         break;
                     case 4:
+                        toastUtils.show(HomeActivity.this, "项目地址", false);
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ddwhan0123/SoyiGit"));
                         startActivity(browserIntent);
                         break;
                     case 5:
+                        toastUtils.show(HomeActivity.this, "分享给其他人", false);
                         Intent share = new Intent(Intent.ACTION_SEND);
                         share.setType("text/plain");
                         share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -150,9 +167,13 @@ public class HomeActivity extends Activity {
                                 getString(R.string.app_name)));
                         break;
                     case 6:
-                        //切到未登录状态
-                        spUtils.putBoolean(HomeActivity.this, ContentConfig.IS_LOGIN, false);
-                        logicJumpTo.noValueJump(HomeActivity.this, LoginActivity.class);
+                        toastUtils.show(HomeActivity.this, "设置", false);
+//                        关闭动画
+//                        mDrawerToggle.setAnimateEnabled(false);
+//                        drawerArrow.setProgress(0f);
+                        break;
+                    case 7:
+                        showLogOutDialog();
 //                        关闭动画
 //                        mDrawerToggle.setAnimateEnabled(false);
 //                        drawerArrow.setProgress(0f);
@@ -225,6 +246,31 @@ public class HomeActivity extends Activity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public void showLogOutDialog() {
+        new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("提示")
+                .setContentText("是否登出?")
+                .setCancelText("取消")
+                .setConfirmText("登出")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                        //切到未登录状态
+                        spUtils.putBoolean(HomeActivity.this, ContentConfig.IS_LOGIN, false);
+                        logicJumpTo.noValueJump(HomeActivity.this, LoginActivity.class);
+                    }
+                })
+                .showCancelButton(true)
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
     }
 
 }

@@ -18,16 +18,17 @@
     </RelativeLayout>
 
     <!-- The navigation drawer -->
-    <ListView
+    <com.dodola.listview.extlib.ListViewExt
+        android:backgroundTint="#00000000"
+        android:divider="#00000000"
+        android:dividerHeight="10dp"
         android:id="@+id/navdrawer"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
         android:drawSelectorOnTop="false">
-    </ListView>
+    </com.dodola.listview.extlib.ListViewExt>
 
 </android.support.v4.widget.DrawerLayout>
