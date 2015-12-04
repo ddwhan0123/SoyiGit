@@ -13,7 +13,7 @@
     </style>
 
     <style name="ActionBar" parent="android:Widget.ActionBar">
-        <item name="android:background">@color/LightSkyBlue</item>
+        <item name="android:background">@color/DoderBlue</item>
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
     </style>
