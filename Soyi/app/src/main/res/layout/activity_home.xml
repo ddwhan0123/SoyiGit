@@ -1,6 +1,7 @@
 <android.support.v4.widget.DrawerLayout
-    android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,25 +11,53 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="动画菜单"/>
+            android:text="动画菜单" />
+
+
+        <RelativeLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/AliceBlue"
+            android:visibility="visible">
+
+            <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+                android:id="@+id/circleProgressBar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:mlpb_progress_stoke_width="5dp"
+                app:mlpb_progress_text_visibility="visible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/circleProgressBar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="加载中"
+                android:textColor="@color/DoderBlue"
+                android:textSize="20dp" />
+        </RelativeLayout>
 
     </RelativeLayout>
 
     <!-- The navigation drawer -->
     <com.dodola.listview.extlib.ListViewExt
-        android:backgroundTint="#00000000"
-        android:divider="#00000000"
-        android:dividerHeight="10dp"
         android:id="@+id/navdrawer"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
+        android:backgroundTint="#00000000"
         android:choiceMode="singleChoice"
-        android:drawSelectorOnTop="false">
-    </com.dodola.listview.extlib.ListViewExt>
+        android:divider="#00000000"
+        android:dividerHeight="10dp"
+        android:drawSelectorOnTop="false"></com.dodola.listview.extlib.ListViewExt>
 
 </android.support.v4.widget.DrawerLayout>

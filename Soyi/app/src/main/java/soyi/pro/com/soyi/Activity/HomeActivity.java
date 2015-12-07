@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dodola.listview.extlib.ListViewExt;
@@ -22,6 +24,14 @@ import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 
 import com.apkfuns.logutils.LogUtils;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import soyi.pro.com.soyi.ContentConfig;
@@ -44,6 +54,11 @@ public class HomeActivity extends Activity {
     private ListViewExt mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
+
+    //加载条
+    private CircleProgressBar circleProgressBar;
+    private RelativeLayout loadingLayout;
+
 //    private boolean drawerArrowColor;
 
 
@@ -76,6 +91,12 @@ public class HomeActivity extends Activity {
     }
 
     private void finViewId() {
+        loadingLayout = (RelativeLayout) findViewById(R.id.loadingLayout);
+        circleProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
+        circleProgressBar.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light, R.color.MediumAquamarine, R.color.blue_btn_bg_pressed_color, R.color.red_btn_bg_color);
+        circleProgressBar.setShowProgressText(false);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListViewExt) findViewById(R.id.navdrawer);
         mDrawerList.setBackgroundColor(00000000);
@@ -188,9 +209,18 @@ public class HomeActivity extends Activity {
 
     }
 
+    private void hideLoadingLayout() {
+        loadingLayout.setVisibility(View.GONE);
+    }
+
+    private void showLoadingLayout() {
+        loadingLayout.setVisibility(View.VISIBLE);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        pool.scheduleAtFixedRate(task,0, 2, TimeUnit.SECONDS);
         LogUtils.d("--->HomeActivity onResume");
     }
 
@@ -272,5 +302,21 @@ public class HomeActivity extends Activity {
                 })
                 .show();
     }
+
+    ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+
+    TimerTask task = new TimerTask() {
+        public void run() {
+            ContentConfig.RECLEN--;
+            //修改界面的相关设置只能在UI线程中执行
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (ContentConfig.RECLEN < 3) {
+                        hideLoadingLayout();
+                    }
+                }
+            });
+        }
+    };
 
 }

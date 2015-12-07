@@ -75,7 +75,7 @@ public class Root extends Activity implements View.OnClickListener {
     }
 
     private void logic() {
-        makeAnim(iconImage, 3000);
+        makeAnim(iconImage, 2000);
 
         String text = getResources().getString(R.string.changeText);
         changeTextView.setWordsPerSecond(100).setRepeat(true).showText(text);
