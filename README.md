@@ -22,7 +22,8 @@
 >>>a.基础ListView UI修改<br>
 >>>b.登出功能<br>
 >>>c.Menu的ListView拉伸收缩效果实现<br>
->>>d.主界面加载DialogView实现
+>>>d.主界面加载DialogView实现<br>
+>>>e.加载DialogView文字描述添加动画
 
 别忘记点个赞哦！:thumbsup::thumbsup::thumbsup:
 <br>
