@@ -2,21 +2,18 @@ package soyi.pro.com.soyi.Activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dodola.listview.extlib.ListViewExt;
@@ -26,9 +23,10 @@ import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.apkfuns.logutils.LogUtils;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
-import java.util.Timer;
+
+import net.frakbot.jumpingbeans.JumpingBeans;
+
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -58,7 +56,8 @@ public class HomeActivity extends Activity {
     //加载条
     private CircleProgressBar circleProgressBar;
     private RelativeLayout loadingLayout;
-
+    private TextView jumpTextView;
+    private JumpingBeans jumpingBeans;
 //    private boolean drawerArrowColor;
 
 
@@ -91,11 +90,19 @@ public class HomeActivity extends Activity {
     }
 
     private void finViewId() {
+
         loadingLayout = (RelativeLayout) findViewById(R.id.loadingLayout);
         circleProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
         circleProgressBar.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light, R.color.MediumAquamarine, R.color.blue_btn_bg_pressed_color, R.color.red_btn_bg_color);
         circleProgressBar.setShowProgressText(false);
+
+        jumpTextView = (TextView) findViewById(R.id.jumpTextView);
+        jumpingBeans = JumpingBeans.with(jumpTextView)
+                .makeTextJump(0, jumpTextView.getText().toString().indexOf(' '))
+                .setIsWave(true)
+                .setLoopDuration(1000)  // ms
+                .build();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListViewExt) findViewById(R.id.navdrawer);
@@ -220,13 +227,15 @@ public class HomeActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        pool.scheduleAtFixedRate(task,0, 2, TimeUnit.SECONDS);
+        pool.scheduleAtFixedRate(task, 0, 2, TimeUnit.SECONDS);
         LogUtils.d("--->HomeActivity onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        jumpingBeans.stopJumping();
+        mDrawerLayout.closeDrawer(mDrawerList);
         LogUtils.d("--->HomeActivity onPause");
     }
 
