@@ -11,28 +11,34 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.convenientbanner.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.dodola.listview.extlib.ListViewExt;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
-
 import com.apkfuns.logutils.LogUtils;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
-
 import net.frakbot.jumpingbeans.JumpingBeans;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import android.support.v4.view.ViewPager;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import soyi.pro.com.soyi.ContentConfig;
+import soyi.pro.com.soyi.Custom.ImageHolderView.NetworkImageHolderView;
 import soyi.pro.com.soyi.Logic.Adapter.MenuAdapter;
 import soyi.pro.com.soyi.Logic.LogicJumpTo;
 import soyi.pro.com.soyi.R;
@@ -40,8 +46,16 @@ import soyi.pro.com.soyi.Tools.DialogUtils;
 import soyi.pro.com.soyi.Tools.SpUtils;
 import soyi.pro.com.soyi.Tools.ToastUtils;
 
-public class HomeActivity extends Activity {
-    String userName;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.bigkoo.convenientbanner.OnItemClickListener;
+
+
+public class HomeActivity extends Activity implements ViewPager.OnPageChangeListener, OnItemClickListener {
+    private String userName;
     private long exitTime = 0;
     SpUtils spUtils;
     LogicJumpTo logicJumpTo;
@@ -58,8 +72,17 @@ public class HomeActivity extends Activity {
     private RelativeLayout loadingLayout;
     private TextView jumpTextView;
     private JumpingBeans jumpingBeans;
-//    private boolean drawerArrowColor;
+    //    private boolean drawerArrowColor;
+    private ConvenientBanner convenientBanner;
 
+    private List<String> networkImages;
+
+    private String[] images = {"http://img1.ph.126.net/EP6iZ0BegbkS7LMXCaJnMg==/4842776974407248116.jpg",
+            "http://img2.ph.126.net/oek2NOwhY-iG_vIP7Fpxxw==/6597860315518880828.jpg",
+            "http://img1.ph.126.net/tpsrGySyZQpKRngybsJmLg==/6619403046839681236.jpg",
+            "http://img1.ph.126.net/5VnBeWGERU36k4aW6g9uig==/3189111486231925924.jpg",
+            "http://img2.ph.126.net/fETUMtqh68gpBoujtqWT0A==/6597840524309584208.jpg"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +90,7 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
         LogUtils.d("--->HomeActivity onCreate");
         init();
-        finViewId();
-        setClickListener();
+        findViewID();
     }
 
     private void init() {
@@ -85,25 +107,51 @@ public class HomeActivity extends Activity {
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
-//        ab.setIcon(R.drawable.icon_touming);
+        initImageLoader();
+        //滚动广告
+        convenientBanner =(ConvenientBanner)findViewById(R.id.convenientBanner);
+
+        if(convenientBanner==null){
+            LogUtils.d("convenientBanner==null");
+        }else{
+            LogUtils.d("convenientBanner!=null");
+        }
+        //获得图片URL
+        networkImages = Arrays.asList(images);
+        //网络加载
+        convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+            @Override
+            public NetworkImageHolderView createHolder() {
+                return new NetworkImageHolderView();
+            }
+        }, networkImages)
+                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
+                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
+                        //设置指示器的方向
+//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+                        //设置翻页的效果，不需要翻页效果可用不设
+                .setPageTransformer(ConvenientBanner.Transformer.DefaultTransformer)
+                .setOnItemClickListener(this);
+//                .setOnPageChangeListener(this);监听翻页事件
 
     }
 
-    private void finViewId() {
-
+    public void findViewID() {
         loadingLayout = (RelativeLayout) findViewById(R.id.loadingLayout);
         circleProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
         circleProgressBar.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light, R.color.MediumAquamarine, R.color.blue_btn_bg_pressed_color, R.color.red_btn_bg_color);
         circleProgressBar.setShowProgressText(false);
 
+        //动画TextView
         jumpTextView = (TextView) findViewById(R.id.jumpTextView);
         jumpingBeans = JumpingBeans.with(jumpTextView)
                 .makeTextJump(0, jumpTextView.getText().toString().indexOf(' '))
                 .setIsWave(true)
-                .setLoopDuration(1000)  // ms
+                .setLoopDuration(800)  // ms
                 .build();
 
+        //侧拉菜单
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListViewExt) findViewById(R.id.navdrawer);
         mDrawerList.setBackgroundColor(00000000);
@@ -132,6 +180,7 @@ public class HomeActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        //菜单数据源
         MenuAdapter adapter = new MenuAdapter(HomeActivity.this, new String[]{
                 "我的照片墙",
                 "给软件评分",
@@ -149,9 +198,6 @@ public class HomeActivity extends Activity {
                                     int position, long id) {
                 switch (position) {
                     case 0:
-//                        关闭动画
-//                        mDrawerToggle.setAnimateEnabled(false);
-//                        drawerArrow.setProgress(1f);
                         toastUtils.show(HomeActivity.this, "我的照片墙", false);
                         break;
                     case 1:
@@ -162,20 +208,9 @@ public class HomeActivity extends Activity {
                         break;
                     case 2:
                         toastUtils.show(HomeActivity.this, "扫描二维码", false);
-//                        打开动画
-//                        mDrawerToggle.setAnimateEnabled(true);
-//                        mDrawerToggle.syncState();
                         break;
                     case 3:
                         toastUtils.show(HomeActivity.this, "赞助作者", false);
-//                        if (drawerArrowColor) {
-//                            drawerArrowColor = false;
-//                            drawerArrow.setColor(R.color.ldrawer_color);
-//                        } else {
-//                            drawerArrowColor = true;
-//                            drawerArrow.setColor(R.color.drawer_arrow_second_color);
-//                        }
-//                        mDrawerToggle.syncState();
                         break;
                     case 4:
                         toastUtils.show(HomeActivity.this, "项目地址", false);
@@ -196,24 +231,14 @@ public class HomeActivity extends Activity {
                         break;
                     case 6:
                         toastUtils.show(HomeActivity.this, "设置", false);
-//                        关闭动画
-//                        mDrawerToggle.setAnimateEnabled(false);
-//                        drawerArrow.setProgress(0f);
                         break;
                     case 7:
                         showLogOutDialog();
-//                        关闭动画
-//                        mDrawerToggle.setAnimateEnabled(false);
-//                        drawerArrow.setProgress(0f);
                         break;
                 }
 
             }
         });
-    }
-
-    private void setClickListener() {
-
     }
 
     private void hideLoadingLayout() {
@@ -228,6 +253,9 @@ public class HomeActivity extends Activity {
     protected void onResume() {
         super.onResume();
         pool.scheduleAtFixedRate(task, 0, 2, TimeUnit.SECONDS);
+        //开始自动翻页
+        convenientBanner.startTurning(3000);//此值不能小于1200（即ViewPagerScroller的mScrollDuration的值），否则最后一页翻页效果会出问题。如果硬要兼容1200以下，那么请修改ViewPagerScroller的mScrollDuration的值，不过修改后，3d效果就没那么明显了。
+
         LogUtils.d("--->HomeActivity onResume");
     }
 
@@ -236,6 +264,8 @@ public class HomeActivity extends Activity {
         super.onPause();
         jumpingBeans.stopJumping();
         mDrawerLayout.closeDrawer(mDrawerList);
+        //停止翻页
+        convenientBanner.stopTurning();
         LogUtils.d("--->HomeActivity onPause");
     }
 
@@ -328,4 +358,39 @@ public class HomeActivity extends Activity {
         }
     };
 
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this, "点击了第" + position + "个", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Toast.makeText(this, "监听到翻到第" + position + "了", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    //初始化网络图片缓存库
+    private void initImageLoader() {
+        //网络图片例子,结合常用的图片缓存库UIL,你可以根据自己需求自己换其他网络图片库
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
+                showImageForEmptyUri(R.drawable.ic_default_adimage)
+                .cacheInMemory(true).cacheOnDisk(true).build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext()).defaultDisplayImageOptions(defaultOptions)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+        ImageLoader.getInstance().init(config);
+    }
 }
