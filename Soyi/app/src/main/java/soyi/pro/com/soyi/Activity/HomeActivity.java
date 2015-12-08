@@ -25,7 +25,6 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import net.frakbot.jumpingbeans.JumpingBeans;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TimerTask;
@@ -36,7 +35,6 @@ import java.util.concurrent.TimeUnit;
 import android.support.v4.view.ViewPager;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-
 import soyi.pro.com.soyi.ContentConfig;
 import soyi.pro.com.soyi.Custom.ImageHolderView.NetworkImageHolderView;
 import soyi.pro.com.soyi.Logic.Adapter.MenuAdapter;
@@ -55,8 +53,14 @@ import com.bigkoo.convenientbanner.OnItemClickListener;
 
 
 public class HomeActivity extends Activity implements ViewPager.OnPageChangeListener, OnItemClickListener {
-    private String userName;
+    //计时器的线程池
+    ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+
+    //返回键计时
     private long exitTime = 0;
+    //传来的用户名
+    private String userName;
+    //一系列工具
     SpUtils spUtils;
     LogicJumpTo logicJumpTo;
     ToastUtils toastUtils;
@@ -72,17 +76,10 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
     private RelativeLayout loadingLayout;
     private TextView jumpTextView;
     private JumpingBeans jumpingBeans;
-    //    private boolean drawerArrowColor;
+
+    //滚动栏相关
     private ConvenientBanner convenientBanner;
-
     private List<String> networkImages;
-
-    private String[] images = {"http://img1.ph.126.net/EP6iZ0BegbkS7LMXCaJnMg==/4842776974407248116.jpg",
-            "http://img2.ph.126.net/oek2NOwhY-iG_vIP7Fpxxw==/6597860315518880828.jpg",
-            "http://img1.ph.126.net/tpsrGySyZQpKRngybsJmLg==/6619403046839681236.jpg",
-            "http://img1.ph.126.net/5VnBeWGERU36k4aW6g9uig==/3189111486231925924.jpg",
-            "http://img2.ph.126.net/fETUMtqh68gpBoujtqWT0A==/6597840524309584208.jpg"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,17 +104,13 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
+        //初始化图片加载
         initImageLoader();
         //滚动广告
-        convenientBanner =(ConvenientBanner)findViewById(R.id.convenientBanner);
+        convenientBanner = (ConvenientBanner) findViewById(R.id.convenientBanner);
 
-        if(convenientBanner==null){
-            LogUtils.d("convenientBanner==null");
-        }else{
-            LogUtils.d("convenientBanner!=null");
-        }
         //获得图片URL
-        networkImages = Arrays.asList(images);
+        networkImages = Arrays.asList(getResources().getStringArray(R.array.imagesArray));
         //网络加载
         convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
             @Override
@@ -145,6 +138,7 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
 
         //动画TextView
         jumpTextView = (TextView) findViewById(R.id.jumpTextView);
+        jumpTextView.setText(userName + " 努力加载中");
         jumpingBeans = JumpingBeans.with(jumpTextView)
                 .makeTextJump(0, jumpTextView.getText().toString().indexOf(' '))
                 .setIsWave(true)
@@ -181,16 +175,7 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
         mDrawerToggle.syncState();
 
         //菜单数据源
-        MenuAdapter adapter = new MenuAdapter(HomeActivity.this, new String[]{
-                "我的照片墙",
-                "给软件评分",
-                "扫描二维码",
-                "赞助作者",
-                "项目地址",
-                "分享给其他人",
-                "设置",
-                "登出帐号"
-        });
+        MenuAdapter adapter = new MenuAdapter(HomeActivity.this, getResources().getStringArray(R.array.menuArray));
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -198,26 +183,29 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
                                     int position, long id) {
                 switch (position) {
                     case 0:
-                        toastUtils.show(HomeActivity.this, "我的照片墙", false);
+                        toastUtils.show(HomeActivity.this, "个人研发", false);
                         break;
                     case 1:
+                        toastUtils.show(HomeActivity.this, "我的照片墙", false);
+                        break;
+                    case 2:
                         toastUtils.show(HomeActivity.this, "给软件评分", false);
 //                        String appUrl = "https://play.google.com/store/apps/details?id=" + getPackageName();
 //                        Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(appUrl));
 //                        startActivity(rateIntent);
                         break;
-                    case 2:
+                    case 3:
                         toastUtils.show(HomeActivity.this, "扫描二维码", false);
                         break;
-                    case 3:
+                    case 4:
                         toastUtils.show(HomeActivity.this, "赞助作者", false);
                         break;
-                    case 4:
+                    case 5:
                         toastUtils.show(HomeActivity.this, "项目地址", false);
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ddwhan0123/SoyiGit"));
                         startActivity(browserIntent);
                         break;
-                    case 5:
+                    case 6:
                         toastUtils.show(HomeActivity.this, "分享给其他人", false);
                         Intent share = new Intent(Intent.ACTION_SEND);
                         share.setType("text/plain");
@@ -229,10 +217,10 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
                         startActivity(Intent.createChooser(share,
                                 getString(R.string.app_name)));
                         break;
-                    case 6:
+                    case 7:
                         toastUtils.show(HomeActivity.this, "设置", false);
                         break;
-                    case 7:
+                    case 8:
                         showLogOutDialog();
                         break;
                 }
@@ -243,6 +231,8 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
 
     private void hideLoadingLayout() {
         loadingLayout.setVisibility(View.GONE);
+        //停止跳动回收资源
+        jumpingBeans.stopJumping();
     }
 
     private void showLoadingLayout() {
@@ -255,14 +245,12 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
         pool.scheduleAtFixedRate(task, 0, 2, TimeUnit.SECONDS);
         //开始自动翻页
         convenientBanner.startTurning(3000);//此值不能小于1200（即ViewPagerScroller的mScrollDuration的值），否则最后一页翻页效果会出问题。如果硬要兼容1200以下，那么请修改ViewPagerScroller的mScrollDuration的值，不过修改后，3d效果就没那么明显了。
-
         LogUtils.d("--->HomeActivity onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        jumpingBeans.stopJumping();
         mDrawerLayout.closeDrawer(mDrawerList);
         //停止翻页
         convenientBanner.stopTurning();
@@ -342,8 +330,6 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
                 .show();
     }
 
-    ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
-
     TimerTask task = new TimerTask() {
         public void run() {
             ContentConfig.RECLEN--;
@@ -360,7 +346,7 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this, "点击了第" + position + "个", Toast.LENGTH_SHORT).show();
+        toastUtils.show(this, "点击了第" + position + "个", false);
     }
 
     @Override
@@ -370,7 +356,7 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
 
     @Override
     public void onPageSelected(int position) {
-        Toast.makeText(this, "监听到翻到第" + position + "了", Toast.LENGTH_SHORT).show();
+        toastUtils.show(this, "监听到翻到第" + position + "了", false);
     }
 
     @Override

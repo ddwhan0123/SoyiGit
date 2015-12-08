@@ -1,4 +1,3 @@
-
 /*
  * The MIT License (MIT)
  *
@@ -25,30 +24,15 @@
 
 package soyi.pro.com.soyi.Anim;
 
-public enum Techniques {
+import android.view.View;
 
+import com.nineoldandroids.animation.ObjectAnimator;
 
-    Shake(ShakeAnimator.class),
-    ZoomInUp(ZoomInUpAnimator.class),
-    Wobble(WobbleAnimator.class),
-    BounceInDown(BounceInDownAnimator.class),
-    BounceInLeft(BounceInLeftAnimator.class),
-    BounceInRight(BounceInRightAnimator.class),
-    BounceInUp(BounceInUpAnimator.class),
-    Swing(SwingAnimator.class);
-
-
-    private Class animatorClazz;
-
-    private Techniques(Class clazz) {
-        animatorClazz = clazz;
-    }
-
-    public BaseViewAnimator getAnimator() {
-        try {
-            return (BaseViewAnimator) animatorClazz.newInstance();
-        } catch (Exception e) {
-            throw new Error("Can not init animatorClazz instance");
-        }
+public class SwingAnimator extends BaseViewAnimator {
+    @Override
+    public void prepare(View target) {
+        getAnimatorAgent().playTogether(
+                ObjectAnimator.ofFloat(target, "rotation", 0, 10, -10, 6, -6, 3, -3, 0)
+        );
     }
 }

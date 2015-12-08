@@ -18,7 +18,7 @@ public class MenuAdapter extends BaseAdapter {
     Context context;
     String[] values;
 
-    int[] imageArray={R.drawable.photo_images,R.drawable.star_empty,R.drawable.qrcode,R.drawable.coin_yen,R.drawable.share2,R.drawable.github5,R.drawable.cog,R.drawable.exit};
+    int[] imageArray={R.drawable.embed2,R.drawable.photo_images,R.drawable.star_empty,R.drawable.qrcode,R.drawable.coin_yen,R.drawable.share2,R.drawable.github5,R.drawable.cog,R.drawable.exit};
 
     public MenuAdapter(Context context,String[] values) {
         this.context = context;

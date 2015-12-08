@@ -1,5 +1,6 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:wjj="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,7 +14,17 @@
             android:id="@+id/convenientBanner"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:canLoop="true"/>
+            app:canLoop="true" />
+
+        <soyi.pro.com.soyi.Custom.CuteEditTextPro.CuteEditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            wjj:text_hint="@string/cute_text_hint"
+            wjj:text_maxLength="10"
+            wjj:text_minLength="6"
+            android:background="@drawable/cute_edittext_bg"
+            android:layout_below="@+id/convenientBanner"
+            android:layout_centerHorizontal="true"></soyi.pro.com.soyi.Custom.CuteEditTextPro.CuteEditText>
 
         <RelativeLayout
             android:id="@+id/loadingLayout"
@@ -38,9 +49,10 @@
                 android:layout_below="@+id/circleProgressBar"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:text="加 载 中 。。"
                 android:textColor="@color/DoderBlue"
                 android:textSize="20dp" />
+
+
         </RelativeLayout>
 
     </RelativeLayout>

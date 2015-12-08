@@ -27,7 +27,6 @@ public class NetworkImageHolderView implements CBPageAdapter.Holder<String>{
 
     @Override
     public void UpdateUI(Context context,int position, String data) {
-        Log.d("--->NetworkImageHolderView","---->NetworkImageHolderView UpdateUI");
         imageView.setImageResource(R.drawable.ic_default_adimage);
         ImageLoader.getInstance().displayImage(data,imageView);
     }

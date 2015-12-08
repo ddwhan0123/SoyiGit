@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="imagesArray">
+        <item>http://img1.ph.126.net/p6X-zOvfpMCHtDMNr2wS3g==/4814066526782499694.jpg</item>
+        <item>http://img2.ph.126.net/oek2NOwhY-iG_vIP7Fpxxw==/6597860315518880828.jpg</item>
+        <item>http://img1.ph.126.net/tpsrGySyZQpKRngybsJmLg==/6619403046839681236.jpg</item>
+        <item>http://img1.ph.126.net/5VnBeWGERU36k4aW6g9uig==/3189111486231925924.jpg</item>
+        <item>http://img0.ph.126.net/5gdjlO6rjCFk_fURoiUwJA==/1157425104334416576.jpg</item>
+    </string-array>
+
+    <string-array name="menuArray">
+        <item>个人研发</item>
+        <item>照片墙</item>
+        <item>给软件评分</item>
+        <item>扫描二维码</item>
+        <item>赞助作者</item>
+        <item>项目地址</item>
+        <item>分享给其他人</item>
+        <item>设置</item>
+        <item>登出帐号</item>
+    </string-array>
+
+</resources>
