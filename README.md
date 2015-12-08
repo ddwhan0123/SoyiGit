@@ -19,11 +19,12 @@
 
 
 >>3.主页面/Home frame<br>
->>>a.基础ListView UI修改<br>
->>>b.登出功能<br>
->>>c.Menu的ListView拉伸收缩效果实现<br>
->>>d.主界面加载DialogView实现<br>
->>>e.加载DialogView文字描述添加动画
+>>>a.基础ListView UI修改/ListView UI modification<br>
+>>>b.登出功能/Logout function<br>
+>>>c.Menu的ListView拉伸收缩效果实现/Realization of ListView of Menu in the effect of stretch and contraction<br>
+>>>d.主界面加载DialogView实现/DialogView implementation of the main interface<br>
+>>>e.加载DialogView文字描述添加动画/Load DialogView text description add animation<br>
+>>>f.滚动广告栏/Scroll bar<br>
 
 别忘记点个赞哦！:thumbsup::thumbsup::thumbsup:
 <br>
