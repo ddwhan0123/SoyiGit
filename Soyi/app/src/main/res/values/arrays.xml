@@ -20,4 +20,19 @@
         <item>登出帐号</item>
     </string-array>
 
+    <string-array name="codeArray">
+        <item>For EditText</item>
+        <item>For TextView</item>
+        <item>For Button/CheckBox/Switch/ProgressBar/Spinner</item>
+        <item>For ListView/GridView/TabHost</item>
+        <item>For Dialog</item>
+        <item>For CustomView</item>
+        <item>For ImageView</item>
+        <item>For WebView</item>
+        <item>For Animation</item>
+        <item>For Layout</item>
+        <item>For Menu</item>
+        <item>For NetWork</item>
+        <item>Others</item>
+    </string-array>
 </resources>

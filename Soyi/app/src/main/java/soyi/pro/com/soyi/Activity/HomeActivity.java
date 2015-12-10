@@ -183,7 +183,7 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
                                     int position, long id) {
                 switch (position) {
                     case 0:
-                        toastUtils.show(HomeActivity.this, "个人研发", false);
+                        logicJumpTo.noValueJump(HomeActivity.this,CodeActivity.class);
                         break;
                     case 1:
                         toastUtils.show(HomeActivity.this, "我的照片墙", false);
