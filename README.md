@@ -26,6 +26,9 @@
 >>>e.加载DialogView文字描述添加动画/Load DialogView text description add animation<br>
 >>>f.滚动广告栏/Scroll bar<br>
 
+>>3.1 个人开发/Personal development<br>
+>>>a.ListView加载动画/ListView animation
+
 别忘记点个赞哦！:thumbsup::thumbsup::thumbsup:
 <br>
 Please support me. Thank you.
