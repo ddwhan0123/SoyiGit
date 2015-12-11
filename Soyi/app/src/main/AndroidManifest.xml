@@ -41,7 +41,8 @@
             android:enabled="true" />
 
         <activity android:name=".Activity.HomeActivity" />
-        <activity android:name=".Activity.CodeActivity"></activity>
+        <activity android:name=".Activity.CodeActivity" />
+        <activity android:name=".Activity.EditTextActivity"></activity>
     </application>
 
 </manifest>
