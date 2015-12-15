@@ -9,10 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="soyi.pro.com.soyi.Activity.CodeActivity">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/codeListView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:choiceMode="singleChoice"
         android:scrollbars="none"
         android:layoutAnimation="@anim/code_item_anim" />

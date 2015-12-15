@@ -42,4 +42,5 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:1.1.4'
     compile files('libs/universal-image-loader-1.9.4.jar')
     compile 'com.google.code.gson:gson:2.5'
+    compile 'com.android.support:recyclerview-v7:23.0.+'
 }
