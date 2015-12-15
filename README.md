@@ -27,7 +27,8 @@
 >>>f.滚动广告栏/Scroll bar<br>
 
 >>3.1 主页面-个人开发/Personal development<br>
->>>a.ListView加载动画/ListView animation
+>>>a.RecyclerView加载动画/RecyclerView animation<br>
+
 
 别忘记点个赞哦！:thumbsup::thumbsup::thumbsup:
 <br>
