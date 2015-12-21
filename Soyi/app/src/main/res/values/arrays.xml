@@ -35,4 +35,80 @@
         <item>For NetWork</item>
         <item>Others</item>
     </string-array>
+
+    <string-array name="forEditText">
+        <item>CuteEditText</item>
+    </string-array>
+    <string-array name="forTextView">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forButton">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forListView">
+        <item>FlexibleListView</item>
+    </string-array>
+    <string-array name="forDialog">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forCustomView">
+        <item>LabelImageView</item>
+    </string-array>
+    <string-array name="forImageView">
+        <item>LabelImageView</item>
+    </string-array>
+    <string-array name="forWebView">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forAnimation">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forLayout">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forMenu">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forNetWork">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
+    <string-array name="forOthers">
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+        <item>123</item>
+    </string-array>
 </resources>

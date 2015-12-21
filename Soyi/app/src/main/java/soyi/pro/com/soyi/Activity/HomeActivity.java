@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 import android.support.v4.view.ViewPager;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import soyi.pro.com.soyi.Activity.CodeActivityPro.CodeActivity;
 import soyi.pro.com.soyi.ContentConfig;
 import soyi.pro.com.soyi.Custom.ImageHolderView.NetworkImageHolderView;
 import soyi.pro.com.soyi.Logic.Adapter.MenuAdapter;
@@ -75,7 +76,6 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
     private CircleProgressBar circleProgressBar;
     private RelativeLayout loadingLayout;
     private TextView jumpTextView;
-    private JumpingBeans jumpingBeans;
 
     //滚动栏相关
     private ConvenientBanner convenientBanner;
@@ -139,11 +139,7 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
         //动画TextView
         jumpTextView = (TextView) findViewById(R.id.jumpTextView);
         jumpTextView.setText(userName + " 努力加载中");
-        jumpingBeans = JumpingBeans.with(jumpTextView)
-                .makeTextJump(0, jumpTextView.getText().toString().indexOf(' '))
-                .setIsWave(true)
-                .setLoopDuration(800)  // ms
-                .build();
+        logicJumpTo.makeTextJump(jumpTextView);
 
         //侧拉菜单
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -232,7 +228,7 @@ public class HomeActivity extends Activity implements ViewPager.OnPageChangeList
     private void hideLoadingLayout() {
         loadingLayout.setVisibility(View.GONE);
         //停止跳动回收资源
-        jumpingBeans.stopJumping();
+        logicJumpTo.stopTextJump();
     }
 
     private void showLoadingLayout() {

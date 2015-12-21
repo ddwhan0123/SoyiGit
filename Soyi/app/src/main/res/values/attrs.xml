@@ -7,4 +7,14 @@
         <attr name="text_anim_Type" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="labelImageView">
+        <attr name="text_color" format="color" />
+        <attr name="text_content" format="string" />
+        <attr name="image_src" format="reference"/>
+        <attr name="image_width" format="dimension"/>
+        <attr name="image_height" format="dimension"/>
+        <attr name="text_size" format="integer"/>
+        <attr name="text_location" format="string"/>
+    </declare-styleable>
+
 </resources>

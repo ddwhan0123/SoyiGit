@@ -12,7 +12,6 @@ public abstract class Son extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.d("--->Son onCreate "+Son.class);
         setContentView(getLayout());
         bindID();
         init();

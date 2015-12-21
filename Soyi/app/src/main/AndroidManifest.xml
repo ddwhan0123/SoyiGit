@@ -41,8 +41,9 @@
             android:enabled="true" />
 
         <activity android:name=".Activity.HomeActivity" />
-        <activity android:name=".Activity.CodeActivity" />
-        <activity android:name=".Activity.EditTextActivity"></activity>
+        <activity android:name=".Activity.CodeActivityPro.CodeActivity" />
+        <activity android:name=".Activity.CodeActivityPro.ShowCodeTypeActivity" />
+        <activity android:name=".Activity.CodeActivityPro.ShowCodeViewActivity"></activity>
     </application>
 
 </manifest>

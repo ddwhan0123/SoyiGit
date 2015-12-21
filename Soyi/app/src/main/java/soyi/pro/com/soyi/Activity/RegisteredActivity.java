@@ -9,15 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.apkfuns.logutils.LogUtils;
 
 import soyi.pro.com.soyi.Logic.LogicJumpTo;
@@ -29,12 +22,11 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
     final static String TAG = RegisteredActivity.class.getName();
     private long exitTime = 0;
     Button loginButton;
-    TextView findPwdTextView,RegTextView;
+    TextView findPwdTextView, RegTextView;
     ImageView KeyImage;
     EditText userPassword, userName;
     ToastUtils toastUtils;
     SpUtils spUtils;
-    RequestQueue mQueue;
 
     LogicJumpTo logicJumpTo;
 
@@ -50,10 +42,8 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
     }
 
     private void init() {
-        logicJumpTo=LogicJumpTo.getInstance();
+        logicJumpTo = LogicJumpTo.getInstance();
 
-        //网络初始化
-        mQueue = Volley.newRequestQueue(this);
         loginButton.setText("注册账号^.^");
         RegTextView.setText("去登陆界面");
         findPwdTextView.setText("王亟亟");
@@ -69,7 +59,7 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
         userName = (EditText) findViewById(R.id.userName);
         findPwdTextView = (TextView) findViewById(R.id.findPwdTextView);
         KeyImage = (ImageView) findViewById(R.id.KeyImage);
-        RegTextView=(TextView)findViewById(R.id.RegTextView);
+        RegTextView = (TextView) findViewById(R.id.RegTextView);
     }
 
     private void setClickListener() {
@@ -82,21 +72,7 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
             spUtils.putString(this, "userName", userName.getText().toString().trim());
             spUtils.putString(this, "userPassword", userPassword.getText().toString().trim());
             LogUtils.d("userName:  " + userName.getText().toString().trim() + " userPassword:  " + userPassword.getText().toString().trim());
-            //后面做跳转和异步,这里用的是get
-            StringRequest stringRequest = new StringRequest("http://www.baidu.com",
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            LogUtils.d("--->onResponse   " + response);
-                            logicJumpTo.LoginToHomeActivity(RegisteredActivity.this, HomeActivity.class, userName.getText().toString().trim());
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    LogUtils.e("TAG", error.getMessage(), error);
-                }
-            });
-            mQueue.add(stringRequest);
+            logicJumpTo.LoginToHomeActivity(RegisteredActivity.this, HomeActivity.class, userName.getText().toString().trim());
         } else {
             userName.setText("");
             userPassword.setText("");
@@ -169,7 +145,7 @@ public class RegisteredActivity extends Activity implements View.OnClickListener
                 RegisteredLogic();
                 break;
             case R.id.RegTextView:
-                logicJumpTo.noValueJump(RegisteredActivity.this,LoginActivity.class);
+                logicJumpTo.noValueJump(RegisteredActivity.this, LoginActivity.class);
                 break;
         }
     }

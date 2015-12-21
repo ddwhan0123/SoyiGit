@@ -56,16 +56,14 @@ public class CuteEditText extends LinearLayout {
         try {
             //获取最短长度
             Default_MinLength = typedArray.getInteger(R.styleable.cuteEditText_text_minLength, 0);
-            LogUtils.d("--->CuteEditText Default_MinLength  " + Default_MinLength);
             //获取最大长度
             Default_MaxLength = typedArray.getInteger(R.styleable.cuteEditText_text_maxLength, 12);
-            LogUtils.d("--->CuteEditText Default_MaxLength  " + Default_MaxLength);
             //获取动画种类
             Default_Anim_Type = typedArray.getString(R.styleable.cuteEditText_text_anim_Type);
-            LogUtils.d("--->CuteEditText Default_Hint  " + Default_Anim_Type);
             //获取默认参数
             Default_Hint = typedArray.getString(R.styleable.cuteEditText_text_hint);
-            LogUtils.d("--->CuteEditText Default_Hint  " + Default_Hint);
+            LogUtils.d("--->cuteedittext Default_Hint  " + Default_Hint+"\n"+"--->cuteedittext Default_Hint  " + Default_Anim_Type+"\n"
+                    +"--->cuteedittext Default_MaxLength  " + Default_MaxLength+"\n"+"--->cuteedittext Default_MinLength  " + Default_MinLength);
         } catch (Exception ex) {
             LogUtils.e("Unable to parse attributes due to: " + ex.getMessage());
             ex.printStackTrace();

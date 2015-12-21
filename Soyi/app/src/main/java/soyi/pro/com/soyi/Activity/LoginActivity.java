@@ -12,11 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.apkfuns.logutils.LogUtils;
 
 import soyi.pro.com.soyi.Logic.LogicJumpTo;
@@ -27,7 +22,6 @@ import soyi.pro.com.soyi.Tools.ToastUtils;
 public class LoginActivity extends Activity implements View.OnClickListener {
     private long exitTime = 0;
     final static String TAG = LoginActivity.class.getName();
-    RequestQueue mQueue;
     ToastUtils toastUtils;
     SpUtils spUtils;
     LogicJumpTo logicJumpTo;
@@ -35,7 +29,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     LinearLayout findPwdLayout;
     Button loginButton;
     EditText userPassword, userName;
-    TextView findPwdTextView,RegTextView;
+    TextView findPwdTextView, RegTextView;
     ImageView KeyImage;
 
     @Override
@@ -51,8 +45,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void init() {
-        //网络初始化
-        mQueue = Volley.newRequestQueue(this);
 
         loginButton.setText("登录账号^.^");
         RegTextView.setText("去注册界面");
@@ -63,8 +55,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private void findId() {
         toastUtils = ToastUtils.getInstance();
         spUtils = SpUtils.getInstance();
-        logicJumpTo=LogicJumpTo.getInstance();
-        RegTextView=(TextView)findViewById(R.id.RegTextView);
+        logicJumpTo = LogicJumpTo.getInstance();
+        RegTextView = (TextView) findViewById(R.id.RegTextView);
 
         findPwdLayout = (LinearLayout) findViewById(R.id.findPwdLayout);
         loginButton = (Button) findViewById(R.id.loginButton);
@@ -93,21 +85,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private void loginLogic() {
         if (checkLogin(userName, "userName") && checkLogin(userPassword, "userPassword")) {
             toastUtils.show(this, "登陆成功", true);
-            //后面做跳转和异步
-            StringRequest stringRequest = new StringRequest("http://www.baidu.com",
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            LogUtils.d("--->onResponse"+ response);
-                            logicJumpTo.LoginToHomeActivity(LoginActivity.this,HomeActivity.class,userName.getText().toString().trim());
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    LogUtils.e("TAG", error.getMessage(), error);
-                }
-            });
-            mQueue.add(stringRequest);
+            logicJumpTo.LoginToHomeActivity(LoginActivity.this, HomeActivity.class, userName.getText().toString().trim());
         } else {
             userName.setText("");
             userPassword.setText("");
@@ -159,7 +137,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 loginLogic();
                 break;
             case R.id.RegTextView:
-                logicJumpTo.noValueJump(LoginActivity.this,RegisteredActivity.class);
+                logicJumpTo.noValueJump(LoginActivity.this, RegisteredActivity.class);
                 break;
         }
     }
