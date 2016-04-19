@@ -84,6 +84,27 @@ public class AppUtils {
     public String getPacketName(Context context) {
         return context.getPackageName();
     }
+    
+    /**
+     * 获进程名称
+     *
+     * @param context
+     *  @param pid
+     * @return
+     */
+     @Nullable
+    public static String getProcessName(Context context, int pid){
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+        if (runningApps != null && !runningApps.isEmpty()) {
+            for (ActivityManager.RunningAppProcessInfo procInfo : runningApps) {
+                if (procInfo.pid == pid) {
+                    return procInfo.processName;
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * 获取所有安装的应用程序,不包含系统应用
